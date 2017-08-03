@@ -5,8 +5,7 @@ using namespace std;
 
 Stack::Stack()
 {
-  size_of_stack = 1;
-  amount_in_stack = 0;
+  size_of_stack = 0;
   stack = new int[size_of_stack];
   //use pointer to create new array
   //size starts at 1 with nothing in array in array
@@ -28,7 +27,7 @@ void Stack::get_input()
   {
     cout << "It is an opperand." << endl;
     num_input = pop();
-    push();
+    push_pop();
   }
   //ask the user for an input
   //check the input for either an int or an opperand
@@ -40,7 +39,6 @@ int Stack::pop()
 {
   int combined = stack[0] + stack[1];
   --size_of_stack;
-  --amount_in_stack;
   return combined;
 }
 
@@ -49,7 +47,7 @@ void Stack::push()
   int *temp_array = new int[size_of_stack];
   temp_array[0] = num_input;
   
-  for(int i = 0; i < amount_in_stack; i++)//copies old array to new array
+  for(int i = 0; i < size_of_stack; i++)//copies old array to new array
   {
     temp_array[i+1] = stack[i];
   }
@@ -63,10 +61,24 @@ void Stack::push()
   //delete old array
 }
 
+void Stack::push_pop()
+{
+  int *temp_array = new int[size_of_stack];
+  temp_array[0] = num_input;
+  
+  for(int i = 0; i < size_of_stack; i++)//copies old array to new array
+  {
+    temp_array[i+1] = stack[i+2];
+  }
+  
+  delete []stack;//delete old array
+  
+  stack = temp_array;
+}
+
 void Stack::re_size_array()
 {
   ++size_of_stack;
-  ++amount_in_stack;
 }
 
 void Stack::print_stack()
@@ -80,7 +92,6 @@ void Stack::print_stack()
 void Stack::remove()
 {
   --size_of_stack;
-  --amount_in_stack;
   
   cout << stack[0] << " has been removed." << endl;
   
